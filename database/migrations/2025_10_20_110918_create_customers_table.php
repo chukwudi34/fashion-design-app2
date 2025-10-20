@@ -21,7 +21,7 @@ return new class extends Migration
         $table->text('address')->nullable();
         $table->enum('gender', ['male', 'female', ''])->default('');
         $table->text('notes')->nullable();
-        $table->enum('status', ['active', 'inactive'])->default('active');
+        // $table->enum('status', ['active', 'inactive'])->default('active');
         $table->timestamps();
     });
 }
@@ -30,9 +30,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-   public function down(): void
-{
-    Schema::dropIfExists('customers');
-}
-
+    public function down(): void
+    {
+        Schema::dropIfExists('customers');
+    }
 };
