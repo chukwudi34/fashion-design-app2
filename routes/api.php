@@ -25,7 +25,6 @@ Route::prefix('v1')->group(function () {
     // Messages
     Route::apiResource('messages', MessageController::class);
 
-
     // Route::get('/measurements', [MeasurementController::class, 'index']);
     // Route::post('/measurements', [MeasurementController::class, 'store']);
     // Sync Queue
