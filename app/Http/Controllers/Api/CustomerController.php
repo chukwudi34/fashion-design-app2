@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Customer::all(), 200);
+        // return response()->json(Customer::all(), 200);
+        // $query = Customer::query();
+
+        $search = $request->query('search');
+
+        $query = Customer::query();
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%");
+        }
+
+        return response()->json($query->get(), 200);
     }
 
     public function store(Request $request)
