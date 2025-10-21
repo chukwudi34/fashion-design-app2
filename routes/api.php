@@ -16,6 +16,8 @@ Route::prefix('v1')->group(function () {
     // Customers
     Route::apiResource('customers', CustomerController::class);
 
+    
+
     // Designs
     Route::apiResource('designs', DesignController::class);
 

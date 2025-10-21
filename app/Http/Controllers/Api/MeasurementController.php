@@ -32,6 +32,7 @@ class MeasurementController extends Controller
             'measurements' => 'required|array',
             'categories' => 'nullable|array',
             'notes' => 'nullable|string',
+              'data' => 'nullable|json'
         ]);
 
         $measurement = Measurement::create([

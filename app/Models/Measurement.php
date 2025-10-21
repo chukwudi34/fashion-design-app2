@@ -16,6 +16,7 @@ class Measurement extends Model
         'notes',
         'measurements',
         'categories',
+        'data',
     ];
 
     // 🧩 Automatically convert JSON to array when retrieved
@@ -23,6 +24,9 @@ class Measurement extends Model
         'measurements' => 'array',
         'categories' => 'array',
         'measurement_date' => 'date',
+
+        'data' => 'array',
+
     ];
 
     public function customer()
