@@ -52,7 +52,19 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
-        $customer->update($request->all());
+        
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'name' => 'required|string|max:200',
+            'email' => 'required|email|unique:customers,email,' . $customer->id,
+            'phone' => 'required|string|max:20',
+            'address' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'notes' => 'nullable|string',
+        ]);
+        
+        $customer->update($validated);
         return response()->json($customer, 200);
     }
 
