@@ -16,6 +16,10 @@ class Message extends Model
         'status',
     ];
 
+  protected $casts = [
+        'status' => 'string',
+    ];
+
     /**
      * Each message belongs to a customer.
      */
