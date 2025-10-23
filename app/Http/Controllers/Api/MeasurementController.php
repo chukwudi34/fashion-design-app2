@@ -8,76 +8,63 @@ use Illuminate\Http\Request;
 
 class MeasurementController extends Controller
 {
-    // ✅ Get all measurements
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $measurements = Measurement::latest()->get();
-        return response()->json($measurements, 200);
+        $measurements = Measurement::with('customer')->orderBy('measurement_date', 'desc')->get();
+        return response()->json(['success' => true, 'data' => $measurements]);
     }
 
-    // ✅ Show a single measurement
-    public function show($id)
-    {
-        $measurement = Measurement::findOrFail($id);
-        return response()->json($measurement, 200);
-    }
-
-    // ✅ Store a new measurement
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'customer_name' => 'required|string|max:200',
-            'measurement_date' => 'required|date',
-            'measurements' => 'required|array',
-            'categories' => 'nullable|array',
-            'notes' => 'nullable|string',
-              'data' => 'nullable|json'
-        ]);
-
-        $measurement = Measurement::create([
-            'customer_id' => $validated['customer_id'],
-            'customer_name' => $validated['customer_name'],
-            'measurement_date' => $validated['measurement_date'],
-            'measurements' => $validated['measurements'],
-            'categories' => $validated['categories'] ?? [],
-            'notes' => $validated['notes'] ?? null,
-        ]);
-
-        return response()->json([
-            'message' => 'Measurement saved successfully!',
-            'data' => $measurement
-        ], 201);
+        $measurement = Measurement::create($request->all());
+        return response()->json(['success' => true, 'data' => $measurement->load('customer')], 201);
     }
 
-    // ✅ Update measurement
-    public function update(Request $request, $id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Measurement $measurement)
     {
-        $measurement = Measurement::findOrFail($id);
-
-        $validated = $request->validate([
-            'measurement_date' => 'nullable|date',
-            'measurements' => 'nullable|array',
-            'categories' => 'nullable|array',
-            'notes' => 'nullable|string',
-        ]);
-
-        $measurement->update($validated);
-
-        return response()->json([
-            'message' => 'Measurement updated successfully!',
-            'data' => $measurement
-        ], 200);
+        return response()->json(['success' => true, 'data' => $measurement->load('customer')]);
     }
 
-    // ✅ Delete a measurement
-    public function destroy($id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Measurement $measurement)
     {
-        $measurement = Measurement::findOrFail($id);
+        $measurement->update($request->all());
+        return response()->json(['success' => true, 'data' => $measurement->load('customer')]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Measurement $measurement)
+    {
         $measurement->delete();
+        return response()->json(['success' => true, 'message' => 'Measurement deleted']);
+    }
+
+    /**
+     * ✅ NEW METHOD: Get all measurements for a specific customer
+     */
+    public function getByCustomer($customerId)
+    {
+        $measurements = Measurement::where('customer_id', $customerId)
+            ->with('customer')
+            ->orderBy('measurement_date', 'desc')
+            ->get();
 
         return response()->json([
-            'message' => 'Measurement deleted successfully.'
-        ], 200);
+            'success' => true,
+            'data' => $measurements
+        ]);
     }
 }

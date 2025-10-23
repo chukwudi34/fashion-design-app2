@@ -24,11 +24,12 @@ Route::prefix('v1')->group(function () {
     // Measurements
     Route::apiResource('measurements', MeasurementController::class);
 
+    Route::get('measurements/customer/{customerId}', [MeasurementController::class, 'getByCustomer']);
+
+
     // Messages
     Route::apiResource('messages', MessageController::class);
 
-    // Route::get('/measurements', [MeasurementController::class, 'index']);
-    // Route::post('/measurements', [MeasurementController::class, 'store']);
     // Sync Queue
     Route::apiResource('sync-queue', SyncQueueController::class);
     Route::apiResource('designs', DesignController::class);

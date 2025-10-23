@@ -10,6 +10,7 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
+
         // return response()->json(Customer::all(), 200);
         // $query = Customer::query();
 
