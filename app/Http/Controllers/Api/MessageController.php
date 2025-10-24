@@ -24,14 +24,25 @@ class MessageController extends Controller
             'customer_id' => 'required|integer|exists:customers,id',
             'subject' => 'required|string|max:255',
             'content' => 'required|string',
-            'status' => 'nullable|string|in:unread,read,archived,sent'
+            'status' => 'nullable|string|in:unread,read,archived,sent',
+             'attachment_type' => 'nullable|string|in:none,photo,document', // ← NEW
+            'attachment_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
         ]);
+
+         // Handle file upload if present
+    $attachmentPath = null;
+        if ($request->hasFile('attachment_file')) {
+            $file = $request->file('attachment_file');
+            $attachmentPath = $file->store('attachments/messages', 'public'); // Store in storage/app/public/attachments/messages
+        }
 
         $message = Message::create([
             'customer_id' => $validated['customer_id'],
             'subject' => $validated['subject'],
             'content' => $validated['content'],
             'status' => $validated['status'] ?? 'unread',
+             'attachment_type' => $validated['attachment_type'] ?? 'none',
+            'attachment_path' => $attachmentPath,
         ]);
 
         $customer = Customer::find($validated['customer_id']);

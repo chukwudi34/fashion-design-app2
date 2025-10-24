@@ -14,6 +14,8 @@ class Message extends Model
         'subject',
         'content',
         'status',
+         'attachment_type',  // ← NEW
+        'attachment_path', 
     ];
 
   protected $casts = [

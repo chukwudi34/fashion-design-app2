@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('subject', 255);
             $table->text('content');
             $table->enum('status', ['unread', 'read', 'archived', 'sent'])->default('unread');
+    $table->enum('attachment_type', ['none', 'photo', 'document'])->default('none');
+            $table->string('attachment_path', 500)->nullable();
+
             $table->timestamps();
         });
     }
