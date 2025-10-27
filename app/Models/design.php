@@ -9,27 +9,40 @@ class Design extends Model
 {
     use HasFactory;
 
-   protected $fillable = [
-    'customer_id',
-    'name',
-    'description',
-    'status',
-    'photo',
-];
+    protected $fillable = [
+        'customer_id',
+        'name',
+        'description',
+        'status',
+        'photo',
+        'design_date',
+        'fabric_type',
+        'color',
+        'style',
+        'occasion',
+        'special_instructions',
+        'first_fitting',
+        'final_fitting',
+        'completion_date',
+        'delivery_date',
+        'estimated_price',
+        'final_price',
+        'notes',
+    ];
 
-public function photos()
-{
-    return $this->hasMany(DesignPhoto::class);
-}
+    public function photos()
+    {
+        return $this->hasMany(DesignPhoto::class);
+    }
 
-protected $appends = ['photo_url'];
+    protected $appends = ['photo_url'];
 
-public function getPhotoUrlAttribute()
-{
-    return $this->photo
-        ? asset('storage/' . $this->photo)
-        : null;
-}
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo
+            ? asset('storage/' . $this->photo)
+            : null;
+    }
 
     /**
      * Relationship: each design belongs to one customer.
