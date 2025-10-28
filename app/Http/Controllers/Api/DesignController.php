@@ -120,52 +120,6 @@ public function update(Request $request, $id)
         return response()->json(Design::with('customer')->findOrFail($id), 200);
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $design = Design::findOrFail($id);
-
-    //     $validated = $request->validate([
-    //         'customer_id' => 'nullable|exists:customers,id',
-    //         'name' => 'nullable|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'status' => 'nullable|string|in:draft,in_progress,completed,delivered',
-    //         'design_date' => 'nullable|date',
-    //         'fabric_type' => 'nullable|string|max:255',
-    //         'color' => 'nullable|string|max:100',
-    //         'style' => 'nullable|string|max:100',
-    //         'occasion' => 'nullable|string|max:255',
-    //         'special_instructions' => 'nullable|string',
-    //         'first_fitting' => 'nullable|date',
-    //         'final_fitting' => 'nullable|date',
-    //         'completion_date' => 'nullable|date',
-    //         'delivery_date' => 'nullable|date',
-    //         'estimated_price' => 'nullable|numeric',
-    //         'final_price' => 'nullable|numeric',
-    //         'part_payment' => 'nullable|numeric',
-    //         'balance' => 'nullable|numeric',
-    //         'notes' => 'nullable|string',
-    //         'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-    //     ]);
-
-    //     $design->update($validated);
-
-    //     // Add new photos if provided
-    //     if ($request->hasFile('photos')) {
-    //         foreach ($request->file('photos') as $file) {
-    //             $path = $file->store('designs', 'public');
-    //             $design->photos()->create([
-    //                 'file_path' => $path,
-    //                 'file_name' => $file->getClientOriginalName(),
-    //             ]);
-    //         }
-    //     }
-
-    //     return response()->json([
-    //         'message' => 'Design updated successfully',
-    //         'data' => $design->load('photos'),
-    //     ], 200);
-    // }
-
     public function destroyPhoto($photoId)
     {
         $photo = DesignPhoto::findOrFail($photoId);
@@ -179,11 +133,19 @@ public function update(Request $request, $id)
         return response()->json(['message' => 'Photo deleted successfully'], 200);
     }
 
-    public function destroy($id)
-    {
-        $design =  Design::findOrFail($id);
-        $design->delete();
 
-        return response()->json(['message' => 'Design deleted'], 204);
-    }
+    public function destroy($id)
+{
+    $design =  Design::findOrFail($id);
+    $design->delete();
+
+    return response()->json(['message' => 'Design deleted successfully'], 200);
+}
+    // public function destroy($id)
+    // {
+    //     $design =  Design::findOrFail($id);
+    //     $design->delete();
+
+    //     return response()->json(['message' => 'Design deleted'], 204);
+    // }
 }
