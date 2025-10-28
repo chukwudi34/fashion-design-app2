@@ -51,6 +51,12 @@ return new class extends Migration
             if (!Schema::hasColumn('designs', 'final_price')) {
                 $table->decimal('final_price', 8, 2)->nullable()->after('estimated_price');
             }
+              if (!Schema::hasColumn('designs', 'part_payment')) {
+                $table->decimal('part_payment', 8, 2)->nullable()->after('final_price');
+            }
+                 if (!Schema::hasColumn('designs', 'balance')) {
+                $table->decimal('balance', 8, 2)->nullable()->after('part_payment');
+            }
             if (!Schema::hasColumn('designs', 'notes')) {
                 $table->text('notes')->nullable()->after('final_price');
             }
@@ -77,6 +83,8 @@ return new class extends Migration
                 'delivery_date',
                 'estimated_price',
                 'final_price',
+                'part_payment',
+                'balance',
                 'notes'
             ]);
         });

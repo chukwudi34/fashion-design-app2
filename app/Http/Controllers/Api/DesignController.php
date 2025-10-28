@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Design;
+use App\Models\DesignPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +12,8 @@ class DesignController extends Controller
 {
     public function index()
     {
-        return response()->json(Design::with('customer')->get(), 200);
+        $get_designs = Design::with('customer')->get();
+        return response()->json($get_designs, 200);
     }
 
     public function store(Request $request)
@@ -33,6 +35,8 @@ class DesignController extends Controller
             'delivery_date' => 'nullable|date',
             'estimated_price' => 'nullable|numeric',
             'final_price' => 'nullable|numeric',
+            'part_payment' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',
             'notes' => 'nullable|string',
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
@@ -82,6 +86,8 @@ class DesignController extends Controller
             'delivery_date' => 'nullable|date',
             'estimated_price' => 'nullable|numeric',
             'final_price' => 'nullable|numeric',
+            'part_payment' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',
             'notes' => 'nullable|string',
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
@@ -107,7 +113,7 @@ class DesignController extends Controller
 
     public function destroyPhoto($photoId)
     {
-        $photo = \App\Models\DesignPhoto::findOrFail($photoId);
+        $photo = DesignPhoto::findOrFail($photoId);
 
         if (Storage::disk('public')->exists($photo->file_path)) {
             Storage::disk('public')->delete($photo->file_path);

@@ -27,6 +27,8 @@ class Design extends Model
         'delivery_date',
         'estimated_price',
         'final_price',
+        'part_payment',
+        'balance',
         'notes',
     ];
 
@@ -39,8 +41,9 @@ class Design extends Model
 
     public function getPhotoUrlAttribute()
     {
-        return $this->photo
-            ? asset('storage/' . $this->photo)
+        $photo = $this->photos->first();
+        return $photo
+            ? asset('storage/' . $photo->file_path)
             : null;
     }
 
