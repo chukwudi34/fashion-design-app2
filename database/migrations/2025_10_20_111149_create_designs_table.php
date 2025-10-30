@@ -12,7 +12,8 @@ return new class extends Migration
 public function up(): void
 {
     Schema::create('designs', function (Blueprint $table) {
-        $table->id();
+        // $table->id();
+        $table->uuid('id')->primary();
         $table->foreignId('customer_id')
               ->constrained('customers')
               ->onDelete('cascade'); // Delete designs if customer is deleted
