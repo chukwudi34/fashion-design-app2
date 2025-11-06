@@ -14,10 +14,9 @@ return new class extends Migration
     Schema::create('design_photos', function (Blueprint $table) {
         // $table->id();
             $table->uuid('id')->primary();
-        
-        $table->foreignId('design_id')
-              ->constrained('designs')
-              ->onDelete('cascade');
+            
+        $table->uuid('design_id');
+       $table->foreign('design_id')->references('id')->on('designs');
 
         $table->string('file_path');
         $table->string('file_name')->nullable();

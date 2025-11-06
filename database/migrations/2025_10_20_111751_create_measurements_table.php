@@ -11,9 +11,13 @@ return new class extends Migration
         Schema::create('measurements', function (Blueprint $table) {
             // $table->id();
             $table->uuid('id')->primary();
-            $table->foreignId('customer_id')
-                  ->constrained('customers')
-                  ->onDelete('cascade');
+
+            // $table->foreignId('customer_id')
+            //       ->constrained('customers')
+            //       ->onDelete('cascade');
+
+            $table->uuid('customer_id');
+       $table->foreign('customer_id')->references('id')->on('customers');
             $table->string('customer_name', 200);
             $table->date('measurement_date');
             $table->json('measurements'); // Store all measurements as JSON

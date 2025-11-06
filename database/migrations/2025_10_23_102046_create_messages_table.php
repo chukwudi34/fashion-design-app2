@@ -11,10 +11,8 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             // $table->id();
             $table->uuid('id')->primary();
-            $table->foreignId('customer_id')
-                  ->nullable()
-                  ->constrained('customers')
-                  ->onDelete('set null');
+            $table->uuid('customer_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->string('subject', 255);
             $table->text('content');
             $table->enum('status', ['unread', 'read', 'archived', 'sent'])->default('unread');

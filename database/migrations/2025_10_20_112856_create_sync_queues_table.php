@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('sync_queue', function (Blueprint $table) {
         // $table->string('id', 100)->primary();
         $table->uuid('id')->primary();
+        
         $table->timestamp('timestamp')->useCurrent();
         $table->enum('operation', ['create', 'update', 'delete']);
         $table->enum('entity_type', ['customer', 'measurement', 'design', 'message']);
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sync_queues');
+        Schema::dropIfExists('sync_queue');
     }
 };

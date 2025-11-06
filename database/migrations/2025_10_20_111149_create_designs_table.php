@@ -14,9 +14,12 @@ public function up(): void
     Schema::create('designs', function (Blueprint $table) {
         // $table->id();
         $table->uuid('id')->primary();
-        $table->foreignId('customer_id')
-              ->constrained('customers')
-              ->onDelete('cascade'); // Delete designs if customer is deleted
+ $table->uuid('customer_id');
+       $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+        
+        // $table->foreignId('customer_id')
+        //       ->constrained('customers')
+        //      ; // Delete designs if customer is deleted
 
         $table->string('name', 255);
         $table->text('description')->nullable();

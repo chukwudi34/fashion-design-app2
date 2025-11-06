@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
 
 class Measurement extends Model
 {
-    use HasFactory;
+    use HasUuids, HasFactory;
 
     protected $fillable = [
         'customer_id',
@@ -16,7 +18,6 @@ class Measurement extends Model
         'notes',
         'measurements',
         'categories',
-        'data',
     ];
 
     // 🧩 Automatically convert JSON to array when retrieved
