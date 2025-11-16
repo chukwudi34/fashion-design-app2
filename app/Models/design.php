@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 
 class Design extends Model
 {
-    use HasUuids, HasFactory;
+    use  HasFactory;
 
     protected $fillable = [
         'customer_id',
@@ -55,5 +54,15 @@ class Design extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
     }
 }

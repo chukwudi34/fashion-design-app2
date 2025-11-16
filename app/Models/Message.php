@@ -4,22 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Message extends Model
 {
-    use HasUuids, HasFactory;
+    use  HasFactory;
 
     protected $fillable = [
         'customer_id',
         'subject',
         'content',
         'status',
-         'attachment_type',  // ← NEW
-        'attachment_path', 
+        'attachment_type',  // ← NEW
+        'attachment_path',
     ];
 
-  protected $casts = [
+    protected $casts = [
         'status' => 'string',
     ];
 
@@ -29,5 +28,15 @@ class Message extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
     }
 }

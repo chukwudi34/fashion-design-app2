@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 
 class DesignPhoto extends Model
 {
-    use HasUuids, HasFactory;
+    use  HasFactory;
 
     protected $fillable = [
         'design_id',
@@ -27,5 +26,16 @@ class DesignPhoto extends Model
     public function getUrlAttribute()
     {
         return asset('storage/' . $this->file_path);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
     }
 }

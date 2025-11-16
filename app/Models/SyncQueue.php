@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
 
 class SyncQueue extends Model
 {
-    use HasUuids,HasFactory;
+    use HasFactory;
 
     protected $table = 'sync_queue'; // explicit table name since not plural
 
@@ -33,15 +33,24 @@ class SyncQueue extends Model
         'last_attempt' => 'datetime',
     ];
 
-//     protected static function boot()
-// {
-//     parent::boot();
+    //     protected static function boot()
+    // {
+    //     parent::boot();
 
-//     static::creating(function ($model) {
-//         if (empty($model->id)) {
-//             $model->id = (string) \Illuminate\Support\Str::uuid();
-//         }
-//     });
-// }
+    //     static::creating(function ($model) {
+    //         if (empty($model->id)) {
+    //             $model->id = (string) \Illuminate\Support\Str::uuid();
+    //         }
+    //     });
+    // }
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 }
