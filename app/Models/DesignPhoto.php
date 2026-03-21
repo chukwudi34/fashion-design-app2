@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class DesignPhoto extends Model
 {
-    use  HasFactory;
+    use HasFactory;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'design_id',

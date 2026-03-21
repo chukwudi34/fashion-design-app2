@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    use  HasFactory;
+    use HasFactory;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'customer_id',

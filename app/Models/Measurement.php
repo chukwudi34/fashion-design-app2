@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Measurement extends Model
 {
-    use  HasFactory;
+    use HasFactory;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'customer_id',
