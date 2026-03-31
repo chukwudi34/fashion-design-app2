@@ -12,6 +12,10 @@ use App\Http\Controllers\Api\{
 };
 
 Route::prefix('v1')->group(function () {
+    // Health check
+    Route::get('/health', function () {
+        return response()->json(['status' => 'healthy'], 200);
+    });
 
     // Customers
     Route::apiResource('customers', CustomerController::class);
